@@ -3,6 +3,7 @@ const {admin, db} = require('../util/admin')
 const postController = {}
 
 postController.getAllPosts = (req, res) => {
+
     db.collection("posts")
         .orderBy("createdAt", "desc")
         .get()
@@ -32,6 +33,7 @@ postController.getAllPosts = (req, res) => {
                 message: "Something went wrong"
             })
         })
+        
 }
 
 postController.getAllPostsByTopic = (req, res) => {
@@ -101,6 +103,7 @@ postController.getAllPostsByUser = (req, res) => {
 }
 
 postController.postAnPost = (req, res) => {
+    
     if(!req.body.title || !req.body.text || !req.body.topic){
         return res.status(500).json({
             success: false, 
@@ -150,7 +153,7 @@ postController.getPostById = (req, res) => {
             }
 
             postData = doc.data()
-            postData = doc.id
+            postData.id = doc.id
 
             return db.collection('comments')
                 .orderBy("createdAt", "desc")
